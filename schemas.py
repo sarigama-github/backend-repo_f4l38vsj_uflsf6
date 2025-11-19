@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,39 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# E-commerce phone store schemas
+
+class Phoneproduct(BaseModel):
+    """
+    Phone products schema
+    Collection name: "phoneproduct"
+    """
+    brand: str = Field(..., description="Brand name")
+    model: str = Field(..., description="Model name")
+    description: Optional[str] = Field(None, description="Short description")
+    price: float = Field(..., ge=0, description="Price in USD")
+    stock: int = Field(0, ge=0, description="Units in stock")
+    image: Optional[str] = Field(None, description="Primary image URL")
+    colors: Optional[List[str]] = Field(default=None, description="Available colors")
+    storage: Optional[List[str]] = Field(default=None, description="Storage options (e.g., 128GB)")
+    screen: Optional[str] = Field(None, description="Screen size/resolution")
+    battery: Optional[str] = Field(None, description="Battery capacity")
+    camera: Optional[str] = Field(None, description="Camera specs")
+
+class Order(BaseModel):
+    """
+    Orders schema
+    Collection name: "order"
+    """
+    customer_name: str = Field(..., description="Customer full name")
+    email: str = Field(..., description="Customer email")
+    address: str = Field(..., description="Shipping address")
+    city: str = Field(..., description="City")
+    country: str = Field(..., description="Country")
+    items: list = Field(..., description="List of items with productId, qty, price")
+    total: float = Field(..., ge=0, description="Order total")
+    status: str = Field("pending", description="Order status")
 
 # Add your own schemas here:
 # --------------------------------------------------
